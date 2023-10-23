@@ -1,5 +1,5 @@
 MAIN_NAME := btc
-TEST_NAME := tests
+TEST_NAME := tests/tests
 
 CXX := c++
 
@@ -27,6 +27,7 @@ $(TEST_NAME): $(OBJ) $(TEST_OBJ)
 	$(CXX) $(OBJ) $(TEST_OBJ) -o $(TEST_NAME)
 
 test: $(TEST_NAME)
+	bash tests/data_fails_create.sh
 	./$(TEST_NAME)
 
 all: $(MAIN_NAME)

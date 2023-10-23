@@ -9,7 +9,7 @@ Date::Date(const Date &src): _day(src._day), _month(src._month), _year(src._year
 
 static bool	is_valid_date(unsigned day, unsigned month, unsigned year)
 {
-	if (year == 0)
+	if (year == 0 || month == 0 || day == 0)
 		return (0);
 	if (day > 31 || month > 12)
 		return (0);

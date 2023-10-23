@@ -21,19 +21,20 @@ bool	get_date_value(const std::string &line, std::string &date, std::string &val
 	line_number++;
 	if (sep == std::string::npos)
 	{
-		std::cout << "Error: bad input = > " << line << std::endl;
+		std::cout << "Error: bad input => " << line << std::endl;
 		return (false);
 	}
 	date = trim(line.substr(0, sep));
 	value = trim(line.substr(sep + 1));
 	if (date.empty() || value.empty())
 	{
-		std::cout << "Error: bad input = > " << line << std::endl;
+		std::cout << "Error: bad input => " << line << std::endl;
 		return (false);
 	}
-	if (date == "date" && value == "value" && line_number == 1)
+	if (date == "date" && value == "value")
 	{
-		std::cout << "Error: bad input = > " << line << std::endl;
+		if (line_number != 1)
+			std::cout << "Error: bad input => " << line << std::endl;
 		return (false);
 	}
 	return (true);
@@ -48,7 +49,7 @@ double	get_value(const std::string &value_str)
 	value = strtod(value_str.c_str(), &endptr);
 	if (endptr && *endptr)
 	{
-		std::cout << "Error: bad input = > " << value_str << std::endl;
+		std::cout << "Error: bad input => " << value_str << std::endl;
 		return (-1.);
 	}
 	if (errno == ERANGE)
@@ -86,14 +87,14 @@ void	exchange_one_line(std::string &line, BitcoinExchange &exchange)
 			return ;
 		std::cout << date << " => " << rate << " = " << rate * value << std::endl;
 	} catch (const Date::InvalidDateException &e) {
-		std::cout << "Error: bad input = > " << date << std::endl;
+		std::cout << "Error: bad input => " << date << std::endl;
 	}
 }
 
 int	get_rates(char *file_name)
-{
+try {
 	std::ifstream file(file_name);
-	BitcoinExchange exchange;
+	BitcoinExchange exchange("data.csv");
 	std::string line;
 
 	if (!file.is_open())
@@ -101,20 +102,11 @@ int	get_rates(char *file_name)
 		std::cerr << "Error: could not open " << "\"" << file_name << "\"" << std::endl;
 		return (1);
 	}
-
-	if (!std::getline(file, line))
-	{
-		std::cerr << "Error: Empty " << "\"" << file_name << "\"" << " file" << std::endl;
-		return (1);
-	}
-	if (line != "date | value")
-	{
-		std::cerr << "Error: Invalid format in " << "\"" << file_name << "\"" << " on first line: " << line << std::endl << "Expected: \"date | value\"" << std::endl;
-		return (1);
-	}
 	while (std::getline(file, line))
 		exchange_one_line(line, exchange);
 	return (0);
+} catch (const BitcoinExchange::ConstructorFailedException &e) {
+	return (1);
 }
 
 int main(int argc, char **argv)
