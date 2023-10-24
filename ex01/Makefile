@@ -1,11 +1,11 @@
-MAIN_NAME := RNP
+MAIN_NAME := RPN
 TEST_NAME := tests
 
 CXX := c++
 
 CXXFLAGS := -Wall -Werror -Wextra -std=c++98 -MMD -g3
 
-OBJ := RNP.o
+OBJ := RPN.o
 
 MAIN_OBJ := main.o
 

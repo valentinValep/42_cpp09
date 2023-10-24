@@ -1,7 +1,23 @@
 #include <stack>
 #include <stdexcept>
+#include "RPN.hpp"
 
-int rnp(std::string str)
+RPN::~RPN() {}
+
+RPN &RPN::operator=(const RPN &rhs)
+{
+	(void)rhs;
+	return (*this);
+}
+
+RPN::RPN(const RPN &rhs)
+{
+	(void)rhs;
+}
+
+RPN::RPN() {}
+
+int RPN::rpn(std::string str)
 {
 	std::stack<int> stack;
 

@@ -1,4 +1,4 @@
-#include "RNP.hpp"
+#include "RPN.hpp"
 #include <iostream>
 #include <string>
 
@@ -7,29 +7,29 @@ int	basic_tests(void)
 	int	ret;
 
 	ret = 0;
-	if (rnp("1") != 1)
+	if (RPN::rpn("1") != 1)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1\") != 1" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1\") != 1" << std::endl;
 		ret += 1;
 	}
-	if (rnp("1 2 +") != 3)
+	if (RPN::rpn("1 2 +") != 3)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 +\") != 3" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 +\") != 3" << std::endl;
 		ret += 1;
 	}
-	if (rnp("1 2 -") != -1)
+	if (RPN::rpn("1 2 -") != -1)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 -\") != 1" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 -\") != 1" << std::endl;
 		ret += 1;
 	}
-	if (rnp("1 2 *") != 2)
+	if (RPN::rpn("1 2 *") != 2)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 *\") != 2" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 *\") != 2" << std::endl;
 		ret += 1;
 	}
-	if (rnp("1 2 /") != 0)
+	if (RPN::rpn("1 2 /") != 0)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 /\") != 0" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 /\") != 0" << std::endl;
 		ret += 1;
 	}
 	return (ret);
@@ -40,25 +40,25 @@ int	subject_tests(void)
 	int	ret;
 
 	ret = 0;
-	if (rnp("8 9 * 9 - 9 - 9 - 4 - 1 +") != 42)
+	if (RPN::rpn("8 9 * 9 - 9 - 9 - 4 - 1 +") != 42)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"8 9 * 9 - 9 - 9 - 4 - 1 +\") != 42" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"8 9 * 9 - 9 - 9 - 4 - 1 +\") != 42" << std::endl;
 		ret += 1;
 	}
-	if (rnp("7 7 * 7 -") != 42)
+	if (RPN::rpn("7 7 * 7 -") != 42)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"7 7 * 7 -\") != 42" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"7 7 * 7 -\") != 42" << std::endl;
 		ret += 1;
 	}
-	if (rnp("1 2 * 2 / 2 * 2 4 - +") != 0)
+	if (RPN::rpn("1 2 * 2 / 2 * 2 4 - +") != 0)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 * 2 / 2 * 2 4 - +\") != 0" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 * 2 / 2 * 2 4 - +\") != 0" << std::endl;
 		ret += 1;
 	}
 	try
 	{
-		rnp("(1 + 1)");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"(1 + 1)\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("(1 + 1)");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"(1 + 1)\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -74,8 +74,8 @@ int	fail_tests(void)
 	ret = 0;
 	try
 	{
-		rnp("");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -83,8 +83,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 2");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 2");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -92,8 +92,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 2 3 +");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 3 +\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 2 3 +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 3 +\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -101,8 +101,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 2 + 3");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 + 3\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 2 + 3");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 + 3\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -110,8 +110,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 2 + 3 4 +");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 + 3 4 +\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 2 + 3 4 +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 + 3 4 +\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -119,8 +119,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("a");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"a\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("a");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"a\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -128,8 +128,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 a +");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 a +\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 a +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 a +\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -137,8 +137,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 + 2");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 + 2\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 + 2");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 + 2\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -146,8 +146,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("+ 1 2");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"+ 1 2\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("+ 1 2");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"+ 1 2\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -155,8 +155,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 +");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 +\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 +\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -164,8 +164,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1 2 + +");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 + +\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1 2 + +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 + +\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -173,8 +173,8 @@ int	fail_tests(void)
 
 	try
 	{
-		rnp("1p2p+");
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1p2p+\") should throw an exception but it doesn't" << std::endl;
+		RPN::rpn("1p2p+");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1p2p+\") should throw an exception but it doesn't" << std::endl;
 		ret += 1;
 	}
 	catch(const std::exception& e)
@@ -188,21 +188,21 @@ int	advanced_tests(void)
 	int	ret;
 
 	ret = 0;
-	if (rnp("1 2 3 4 5 + + + +") != 15)
+	if (RPN::rpn("1 2 3 4 5 + + + +") != 15)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 3 4 5 + + + +\") != 15" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 3 4 5 + + + +\") != 15" << std::endl;
 		ret += 1;
 	}
 
-	if (rnp("1 2 3 4 5 - - - -") != 3)
+	if (RPN::rpn("1 2 3 4 5 - - - -") != 3)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 3 4 5 - - - -\") != -13" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 3 4 5 - - - -\") != -13" << std::endl;
 		ret += 1;
 	}
 
-	if (rnp("1 2 + 3 4 + 5 + +") != 15)
+	if (RPN::rpn("1 2 + 3 4 + 5 + +") != 15)
 	{
-		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "rnp(\"1 2 + 3 4 + 5 + +\") != 15" << std::endl;
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"1 2 + 3 4 + 5 + +\") != 15" << std::endl;
 		ret += 1;
 	}
 
