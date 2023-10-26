@@ -5,7 +5,7 @@ CXX := c++
 
 CXXFLAGS := -Wall -Werror -Wextra -std=c++98 -MMD -g3
 
-OBJ := PmergeMe.o
+OBJ :=
 
 MAIN_OBJ := main.o
 
