@@ -75,6 +75,6 @@ const T *MergePair<T>::get_second() const
 template <typename T>
 std::ostream &operator<<(std::ostream &out, const MergePair<T> &src)
 {
-	out << "<main:" << *src.get_main() << ", " << *src.get_second() << ">";
+	out << "[" << *src.get_main() << " > " << *src.get_second() << "]";
 	return (out);
 }

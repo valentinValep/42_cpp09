@@ -26,7 +26,7 @@ $(TEST_NAME): $(OBJ) $(TEST_OBJ)
 	$(CXX) $(OBJ) $(TEST_OBJ) -o $(TEST_NAME)
 
 test: $(TEST_NAME)
-	./$(TEST_NAME)
+	valgrind ./$(TEST_NAME)
 
 all: $(MAIN_NAME)
 

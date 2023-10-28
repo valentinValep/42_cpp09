@@ -26,7 +26,7 @@ int	sort(int argc, char **argv)
 		list.push_back(num);
 	}
 
-	PmergeMe<unsigned int, 32> pmm(vec);
+	PmergeMe<unsigned int> pmm(vec);
 	std::vector<unsigned int> sorted_vec = pmm.merge_insertion_sort();
 
 	// @TODO

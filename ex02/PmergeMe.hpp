@@ -6,7 +6,7 @@
 #include <list>
 #include <algorithm>
 
-template <typename T, unsigned N>
+template <typename T, unsigned N = 32>
 class PmergeMe
 {
 private:
@@ -14,10 +14,10 @@ private:
 
 	PmergeMe();
 	PmergeMe(const PmergeMe &src);
-	PmergeMe	&operator=(const PmergeMe &src);
 
 	void swap_pairs();
 public:
+	PmergeMe	&operator=(const PmergeMe &src);
 	~PmergeMe();
 	PmergeMe(const std::vector<T> &array);
 	std::vector<T>	merge_insertion_sort();
