@@ -5,39 +5,39 @@
 #include <algorithm>
 #include <utility>
 
-template <typename T, unsigned N>
-PmergeMe<T, N>::PmergeMe()
+template <typename T, template<typename, class> class Container, unsigned N>
+PmergeMe<T, Container, N>::PmergeMe()
 {}
 
-template <typename T, unsigned N>
-PmergeMe<T, N>::PmergeMe(const PmergeMe &src)
+template <typename T, template<typename, class> class Container, unsigned N>
+PmergeMe<T, Container, N>::PmergeMe(const PmergeMe<T, Container, N> &src)
 {
 	(void)src;
 }
 
-template <typename T, unsigned N>
-PmergeMe<T, N>::~PmergeMe()
+template <typename T, template<typename, class> class Container, unsigned N>
+PmergeMe<T, Container, N>::~PmergeMe()
 {}
 
-template <typename T, unsigned N>
-PmergeMe<T, N>	&PmergeMe<T, N>::operator=(const PmergeMe<T, N> &src)
+template <typename T, template<typename, class> class Container, unsigned N>
+PmergeMe<T, Container, N>	&PmergeMe<T, Container, N>::operator=(const PmergeMe<T, Container, N> &src)
 {
-	this->vector = src.vector;
+	this->container = src.container;
 	return (*this);
 }
 
-template <typename T, unsigned N>
-inline void PmergeMe<T, N>::swap_pairs()
+template <typename T, template<typename, class> class Container, unsigned N>
+inline void PmergeMe<T, Container, N>::swap_pairs()
 {
-	for (typename std::vector<T>::iterator it = this->vector.begin() + 1; it < this->vector.end(); it += 2)
+	for (typename Container<T, std::allocator<T> >::iterator it = this->container.begin() + 1; it < this->container.end(); it += 2)
 		if (*it < *(it - 1))
 			std::swap(*it, *(it - 1));
 }
 
-template <typename T, unsigned N>
-inline PmergeMe<T, N>::PmergeMe(const std::vector<T> &array)
+template <typename T, template<typename, class> class Container, unsigned N>
+inline PmergeMe<T, Container, N>::PmergeMe(const Container<T, std::allocator<T> > &array)
 {
-	this->vector = array;
+	this->container = array;
 }
 
 unsigned int	get_jacobstal_number(unsigned int n)
@@ -49,9 +49,10 @@ unsigned int	get_jacobstal_number(unsigned int n)
 	return get_jacobstal_number(n - 1) + get_jacobstal_number(n - 2) * 2;
 }
 
-std::vector<unsigned int>	get_jacobstal_indexes(unsigned int size)
+template <template<typename, class> class Container>
+Container<unsigned int, std::allocator<unsigned int> >	get_jacobstal_indexes(unsigned int size)
 {
-	std::vector<unsigned int>	jac_indexes;
+	Container<unsigned int, std::allocator<unsigned int> >	jac_indexes;
 	unsigned int				index = 0;
 	unsigned int				last_jac_num = 0;
 	unsigned int				jac_seq_index = 2;
@@ -75,8 +76,8 @@ std::vector<unsigned int>	get_jacobstal_indexes(unsigned int size)
 	return jac_indexes;
 }
 
-template <typename T>
-unsigned int	binary_search(const std::vector<T> &array, size_t size, T value)
+template <typename T, template<typename, class> class Container>
+unsigned int	binary_search(const Container<T, std::allocator<T> > &array, size_t size, T value)
 {
 	unsigned int	min = 0;
 	unsigned int	max = size - 1;
@@ -99,56 +100,56 @@ unsigned int	binary_search(const std::vector<T> &array, size_t size, T value)
 	return min;
 }
 
-template <typename T, unsigned N>
-inline std::vector<T> PmergeMe<T, N>::merge_insertion_sort()
+template <typename T, template<typename, class> class Container, unsigned N>
+inline Container<T, std::allocator<T> > PmergeMe<T, Container, N>::merge_insertion_sort()
 {
-	std::vector<MergePair<T> >	pairs;
+	Container<MergePair<T>, std::allocator<MergePair<T> > >	pairs;
 
-	if (this->vector.size() <= 1)
-		return this->vector;
-	if (this->vector.size() == 2)
+	if (this->container.size() <= 1)
+		return this->container;
+	if (this->container.size() == 2)
 	{
-		if (this->vector[0] > this->vector[1])
-			std::swap(this->vector[0], this->vector[1]);
-		return this->vector;
+		if (this->container[0] > this->container[1])
+			std::swap(this->container[0], this->container[1]);
+		return this->container;
 	}
 	this->swap_pairs();
 
-	for (typename std::vector<T>::iterator it = this->vector.begin() + 1; it < this->vector.end(); it += 2)
+	for (typename Container<T, std::allocator<T> >::iterator it = this->container.begin() + 1; it < this->container.end(); it += 2)
 		pairs.push_back(MergePair<T>(&(*it), &(*(it - 1))));
 	//std::cout << "sending pairs: ";
-	//for (typename std::vector<MergePair<T> >::iterator it = pairs.begin(); it != pairs.end(); it++)
+	//for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
 	//	std::cout << *it << " ";
 	//std::cout << std::endl;
-	PmergeMe<MergePair<T>, N - 1> pmm(pairs);
+	PmergeMe<MergePair<T>, Container, N - 1> pmm(pairs);
 	pairs = pmm.merge_insertion_sort();
 
 	//std::cout << "sorted pairs: ";
-	//for (typename std::vector<MergePair<T> >::iterator it = pairs.begin(); it != pairs.end(); it++)
+	//for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
 	//	std::cout << *it << " ";
 	//std::cout << std::endl;
 
-	std::vector<T>	sorted;
-	std::vector<T>	pending;
-	for (typename std::vector<MergePair<T> >::iterator it = pairs.begin(); it != pairs.end(); it++)
+	Container<T, std::allocator<T> >	sorted;
+	Container<T, std::allocator<T> >	pending;
+	for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
 	{
 		sorted.push_back(*it->get_main());
 		pending.push_back(*it->get_second());
 	}
-	if (this->vector.size() % 2 == 1)
-		pending.push_back(this->vector[this->vector.size() - 1]);
+	if (this->container.size() % 2 == 1)
+		pending.push_back(this->container[this->container.size() - 1]);
 
-	std::vector<unsigned int>	jac_indexes = get_jacobstal_indexes(pending.size());
+	Container<unsigned int, std::allocator<unsigned int> >	jac_indexes = get_jacobstal_indexes<Container>(pending.size());
 	unsigned int bin_search_size;
 	for (unsigned int i = 0; i < jac_indexes.size(); i++)
 	{
 		//std::cout << "==================\nsorted: ";
-		//for (typename std::vector<T>::iterator it = sorted.begin(); it != sorted.end(); it++)
+		//for (typename Container<T, std::allocator<T> >::iterator it = sorted.begin(); it != sorted.end(); it++)
 		//	std::cout << *it << " ";
 		//std::cout << std::endl;
 
 		//std::cout << "pending: ";
-		//for (typename std::vector<T>::iterator it = pending.begin(); it != pending.end(); it++)
+		//for (typename Container<T, std::allocator<T> >::iterator it = pending.begin(); it != pending.end(); it++)
 		//	std::cout << *it << " ";
 		//std::cout << std::endl;
 
@@ -175,7 +176,7 @@ inline std::vector<T> PmergeMe<T, N>::merge_insertion_sort()
 	}
 
 	//std::cout << "==================\nsorted: ";
-	//for (typename std::vector<T>::iterator it = sorted.begin(); it != sorted.end(); it++)
+	//for (typename Container<T, std::allocator<T> >::iterator it = sorted.begin(); it != sorted.end(); it++)
 	//	std::cout << *it << " ";
 	//std::cout << std::endl;
 

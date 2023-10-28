@@ -6,11 +6,11 @@
 #include <list>
 #include <algorithm>
 
-template <typename T, unsigned N = 32>
+template <typename T, template<typename, class> class Container, unsigned N = 32>
 class PmergeMe
 {
 private:
-	std::vector<T>	vector;
+	Container<T, std::allocator<T> >	container;
 
 	PmergeMe();
 	PmergeMe(const PmergeMe &src);
@@ -19,15 +19,15 @@ private:
 public:
 	PmergeMe	&operator=(const PmergeMe &src);
 	~PmergeMe();
-	PmergeMe(const std::vector<T> &array);
-	std::vector<T>	merge_insertion_sort();
+	PmergeMe(const Container<T, std::allocator<T> > &array);
+	Container<T, std::allocator<T> >	merge_insertion_sort();
 };
 
-template <typename T>
-class PmergeMe<T, 0>
+template <typename T, template<typename, class> class Container>
+class PmergeMe<T, Container, 0>
 {
 private:
-	std::vector<T>	vector;
+	Container<T, std::allocator<T> >	container;
 
 	PmergeMe();
 	PmergeMe(const PmergeMe &src);
@@ -36,8 +36,8 @@ private:
 	void swap_pairs();
 public:
 	~PmergeMe();
-	PmergeMe(const std::vector<T> &array);
-	std::vector<T>	merge_insertion_sort();
+	PmergeMe(const Container<T, std::allocator<T> > &array);
+	Container<T, std::allocator<T> >	merge_insertion_sort();
 
 	class InvalidArraySizeException : public std::exception
 	{

@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <algorithm>
 #include <utility>
 #include <sys/time.h>
@@ -15,7 +16,7 @@ unsigned long long int getTime()
 int	sort(int argc, char **argv)
 {
 	std::vector<unsigned int> vec;
-	std::list<unsigned int> list;
+	std::deque<unsigned int> dequeue;
 	unsigned long long int time;
 
 	for (int i = 1; i < argc; i++)
@@ -32,7 +33,7 @@ int	sort(int argc, char **argv)
 			return (1);
 		}
 		vec.push_back(num);
-		list.push_back(num);
+		dequeue.push_back(num);
 	}
 
 	std::cout << "Before: ";
@@ -42,8 +43,8 @@ int	sort(int argc, char **argv)
 
 	// std::vector
 	time = getTime();
-	PmergeMe<unsigned int> pmm(vec);
-	std::vector<unsigned int> sorted_vec = pmm.merge_insertion_sort();
+	PmergeMe<unsigned int, std::vector > pmm_vector(vec);
+	std::vector<unsigned int> sorted_vec = pmm_vector.merge_insertion_sort();
 	time = getTime() - time;
 
 	std::cout << "After: ";
@@ -55,8 +56,8 @@ int	sort(int argc, char **argv)
 
 	// std::deque @TODO
 	time = getTime();
-	pmm = PmergeMe<unsigned int>(vec);
-	sorted_vec = pmm.merge_insertion_sort();
+	PmergeMe<unsigned int, std::deque > pmm_deque(dequeue);
+	pmm_deque.merge_insertion_sort();
 	time = getTime() - time;
 
 	std::cout << "Time to process a range of " << argc - 1 << "elements with std::deque: " << time << "us" << std::endl;
