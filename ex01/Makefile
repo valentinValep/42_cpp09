@@ -1,4 +1,4 @@
-MAIN_NAME := RPN
+NAME := RPN
 TEST_NAME := tests
 
 CXX := c++
@@ -19,8 +19,8 @@ RM := rm -f
 
 #############################################################################
 
-$(MAIN_NAME): $(OBJ) $(MAIN_OBJ)
-	$(CXX) $(OBJ) $(MAIN_OBJ) -o $(MAIN_NAME)
+$(NAME): $(OBJ) $(MAIN_OBJ)
+	$(CXX) $(OBJ) $(MAIN_OBJ) -o $(NAME)
 
 $(TEST_NAME): $(OBJ) $(TEST_OBJ)
 	$(CXX) $(OBJ) $(TEST_OBJ) -o $(TEST_NAME)
@@ -28,7 +28,7 @@ $(TEST_NAME): $(OBJ) $(TEST_OBJ)
 test: $(TEST_NAME)
 	./$(TEST_NAME)
 
-all: $(MAIN_NAME)
+all: $(NAME)
 
 clean:
 	$(RM) $(DEPS)
@@ -37,7 +37,7 @@ clean:
 	$(RM) $(TEST_OBJ)
 
 fclean: clean
-	$(RM) $(MAIN_NAME)
+	$(RM) $(NAME)
 	$(RM) $(TEST_NAME)
 
 re: fclean all
