@@ -117,17 +117,21 @@ inline Container<T, std::allocator<T> > PmergeMe<T, Container, N>::merge_inserti
 
 	for (typename Container<T, std::allocator<T> >::iterator it = this->container.begin() + 1; it < this->container.end(); it += 2)
 		pairs.push_back(MergePair<T>(&(*it), &(*(it - 1))));
-	//std::cout << "sending pairs: ";
-	//for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
-	//	std::cout << *it << " ";
-	//std::cout << std::endl;
+	#ifdef DEBUG
+		std::cout << "sending pairs: ";
+		for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
+			std::cout << *it << " ";
+		std::cout << std::endl;
+	#endif
 	PmergeMe<MergePair<T>, Container, N - 1> pmm(pairs);
 	pairs = pmm.merge_insertion_sort();
 
-	//std::cout << "sorted pairs: ";
-	//for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
-	//	std::cout << *it << " ";
-	//std::cout << std::endl;
+	#ifdef DEBUG
+		std::cout << "sorted pairs: ";
+		for (typename Container<MergePair<T>, std::allocator<MergePair<T> > >::iterator it = pairs.begin(); it != pairs.end(); it++)
+			std::cout << *it << " ";
+		std::cout << std::endl;
+	#endif
 
 	Container<T, std::allocator<T> >	sorted;
 	Container<T, std::allocator<T> >	pending;
@@ -143,23 +147,26 @@ inline Container<T, std::allocator<T> > PmergeMe<T, Container, N>::merge_inserti
 	unsigned int bin_search_size;
 	for (unsigned int i = 0; i < jac_indexes.size(); i++)
 	{
-		//std::cout << "==================\nsorted: ";
-		//for (typename Container<T, std::allocator<T> >::iterator it = sorted.begin(); it != sorted.end(); it++)
-		//	std::cout << *it << " ";
-		//std::cout << std::endl;
-
-		//std::cout << "pending: ";
-		//for (typename Container<T, std::allocator<T> >::iterator it = pending.begin(); it != pending.end(); it++)
-		//	std::cout << *it << " ";
-		//std::cout << std::endl;
+		#ifdef DEBUG
+			std::cout << "==================\nsorted: ";
+			for (typename Container<T, std::allocator<T> >::iterator it = sorted.begin(); it != sorted.end(); it++)
+				std::cout << *it << " ";
+			std::cout << std::endl;
+			std::cout << "pending: ";
+			for (typename Container<T, std::allocator<T> >::iterator it = pending.begin(); it != pending.end(); it++)
+				std::cout << *it << " ";
+			std::cout << std::endl;
+		#endif
 
 		unsigned int pending_index = jac_indexes[i];
 
 		if (i == 0 || jac_indexes[i - 1] != jac_indexes[i] + 1)
 			bin_search_size = i + jac_indexes[i];
 
-		//std::cout << "pending_index: " << pending_index << std::endl;
-		//std::cout << "bin_search_size: " << bin_search_size << std::endl;
+		#ifdef DEBUG
+			std::cout << "pending_index: " << pending_index << std::endl;
+			std::cout << "bin_search_size: " << bin_search_size << std::endl;
+		#endif
 		if (pending_index >= pending.size())
 		{
 			bin_search_size--;
@@ -167,8 +174,9 @@ inline Container<T, std::allocator<T> > PmergeMe<T, Container, N>::merge_inserti
 		}
 
 		unsigned int insert_index = binary_search(sorted, bin_search_size, pending[pending_index]);
-		//std::cout << "insert_index: " << insert_index << std::endl;
-
+		#ifdef DEBUG
+			std::cout << "insert_index: " << insert_index << std::endl;
+		#endif
 		if (insert_index == bin_search_size)
 			bin_search_size--;
 

@@ -27,7 +27,7 @@ int	sort(int argc, char **argv)
 			std::cerr << "Error: Invalid number" << std::endl;
 			return (1);
 		}
-		if (std::find(vec.begin(), vec.end(), num) != vec.end())
+		if (std::find(vec.begin(), vec.end(), num) != vec.end()) // use set ?
 		{
 			std::cerr << "Error: Duplicate number" << std::endl;
 			return (1);
@@ -54,7 +54,7 @@ int	sort(int argc, char **argv)
 
 	std::cout << "Time to process a range of " << argc - 1 << "elements with std::vector: " << time << "us" << std::endl;
 
-	// std::deque @TODO
+	// std::deque
 	time = getTime();
 	PmergeMe<unsigned int, std::deque > pmm_deque(dequeue);
 	pmm_deque.merge_insertion_sort();
