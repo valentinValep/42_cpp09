@@ -63,6 +63,8 @@ int RPN::rpn(std::string str)
 			stack.pop();
 			int b = stack.top();
 			stack.pop();
+			if (a == 0.)
+				throw std::runtime_error("Error: Integer divide by zero");
 			stack.push(b / a);
 		}
 		else if (std::isspace(str[i]) == false)
