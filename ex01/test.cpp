@@ -189,6 +189,24 @@ int	fail_tests(void)
 	catch(const std::exception& e)
 	{}
 
+	try
+	{
+		RPN::rpn("10 3 +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"2 0 /\") should throw an exception but it doesn't" << std::endl;
+		ret += 1;
+	}
+	catch(const std::exception& e)
+	{}
+
+	try
+	{
+		RPN::rpn("987 3 +");
+		std::cerr << __FILE__ << ": " << __LINE__ << ": " << "RPN::rpn(\"2 0 /\") should throw an exception but it doesn't" << std::endl;
+		ret += 1;
+	}
+	catch(const std::exception& e)
+	{}
+
 	return (ret);
 }
 
